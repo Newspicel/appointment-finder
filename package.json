@@ -2,6 +2,7 @@
 	"name": "appointment-finder",
 	"private": true,
 	"type": "module",
+	"packageManager": "pnpm@11.9.0",
 	"imports": {
 		"#/*": "./src/*"
 	},

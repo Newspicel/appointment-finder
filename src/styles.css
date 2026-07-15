@@ -1,0 +1,112 @@
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+	--background: oklch(0.975 0.004 85);
+	--foreground: oklch(0.26 0.015 261);
+	--card: oklch(0.995 0.002 85);
+	--card-foreground: oklch(0.26 0.015 261);
+	--popover: oklch(0.995 0.002 85);
+	--popover-foreground: oklch(0.26 0.015 261);
+	--primary: oklch(0.5 0.115 158);
+	--primary-foreground: oklch(0.985 0.01 158);
+	--secondary: oklch(0.943 0.008 85);
+	--secondary-foreground: oklch(0.3 0.015 261);
+	--muted: oklch(0.943 0.006 85);
+	--muted-foreground: oklch(0.5 0.018 261);
+	--accent: oklch(0.943 0.006 85);
+	--accent-foreground: oklch(0.26 0.015 261);
+	--destructive: oklch(0.55 0.19 27);
+	--border: oklch(0.9 0.008 85);
+	--input: oklch(0.87 0.008 85);
+	--ring: oklch(0.5 0.115 158);
+	--everyone: oklch(0.5 0.115 158 / 0.13);
+	--today: oklch(0.5 0.115 158);
+	--radius: 0.5rem;
+}
+
+.dark {
+	--background: oklch(0.205 0.012 261);
+	--foreground: oklch(0.92 0.008 261);
+	--card: oklch(0.245 0.012 261);
+	--card-foreground: oklch(0.92 0.008 261);
+	--popover: oklch(0.27 0.012 261);
+	--popover-foreground: oklch(0.92 0.008 261);
+	--primary: oklch(0.78 0.1 158);
+	--primary-foreground: oklch(0.2 0.05 158);
+	--secondary: oklch(0.29 0.012 261);
+	--secondary-foreground: oklch(0.9 0.008 261);
+	--muted: oklch(0.285 0.01 261);
+	--muted-foreground: oklch(0.67 0.012 261);
+	--accent: oklch(0.285 0.01 261);
+	--accent-foreground: oklch(0.92 0.008 261);
+	--destructive: oklch(0.66 0.15 27);
+	--border: oklch(0.315 0.012 261);
+	--input: oklch(0.36 0.012 261);
+	--ring: oklch(0.78 0.1 158);
+	--everyone: oklch(0.78 0.1 158 / 0.16);
+	--today: oklch(0.78 0.1 158);
+}
+
+@theme inline {
+	--font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, monospace;
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-everyone: var(--everyone);
+	--color-today: var(--today);
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+}
+
+html {
+	color-scheme: light;
+}
+
+html.dark {
+	color-scheme: dark;
+}
+
+body {
+	background: var(--background);
+	color: var(--foreground);
+}
+
+.tnum {
+	font-variant-numeric: tabular-nums lining-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

@@ -1,6 +1,7 @@
 import { XIcon } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
+import { Segmented } from "@/components/segmented"
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -55,6 +56,7 @@ function AddForm({
 	onMutate: () => Promise<void>
 }) {
 	const { t } = useApp()
+	const [mode, setMode] = useState<"allday" | "times">("allday")
 	const [from, setFrom] = useState("")
 	const [to, setTo] = useState("")
 	const [until, setUntil] = useState(iso)
@@ -64,8 +66,8 @@ function AddForm({
 	const input: EntryInput = {
 		startDate: iso,
 		endDate: until || iso,
-		startMin: from ? parseTime(from) : undefined,
-		endMin: to ? parseTime(to) : undefined,
+		startMin: mode === "times" && from ? parseTime(from) : undefined,
+		endMin: mode === "times" && to ? parseTime(to) : undefined,
 	}
 	const preview = normalizeEntry(input)
 
@@ -80,6 +82,7 @@ function AddForm({
 		try {
 			await addEntry({ data: { sessionId, entry: input } })
 			await onMutate()
+			setMode("allday")
 			setFrom("")
 			setTo("")
 			setUntil(iso)
@@ -93,50 +96,67 @@ function AddForm({
 
 	return (
 		<form onSubmit={submit} className="grid gap-3 border-t border-border pt-4">
-			<div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-				<div className="grid gap-1">
-					<Label htmlFor="entry-from" className="text-xs text-muted-foreground">
-						{t.from}
-					</Label>
-					<Input
-						id="entry-from"
-						type="time"
-						value={from}
-						onChange={(e) => {
-							setFrom(e.target.value)
-							setError(false)
-						}}
-					/>
+			<Segmented<"allday" | "times">
+				label={t.timeMode}
+				value={mode}
+				onChange={(next) => {
+					setMode(next)
+					setFrom("")
+					setTo("")
+					setError(false)
+				}}
+				options={[
+					{ value: "allday", label: t.allDay, title: t.allDay },
+					{ value: "times", label: t.withTimes, title: t.withTimes },
+				]}
+				buttonClassName="h-8 flex-1"
+			/>
+			{mode === "times" && (
+				<div className="grid grid-cols-2 gap-2">
+					<div className="grid min-w-0 gap-1">
+						<Label htmlFor="entry-from" className="text-xs text-muted-foreground">
+							{t.from}
+						</Label>
+						<Input
+							id="entry-from"
+							type="time"
+							value={from}
+							onChange={(e) => {
+								setFrom(e.target.value)
+								setError(false)
+							}}
+						/>
+					</div>
+					<div className="grid min-w-0 gap-1">
+						<Label htmlFor="entry-to" className="text-xs text-muted-foreground">
+							{t.to}
+						</Label>
+						<Input
+							id="entry-to"
+							type="time"
+							value={to}
+							onChange={(e) => {
+								setTo(e.target.value)
+								setError(false)
+							}}
+						/>
+					</div>
 				</div>
-				<div className="grid gap-1">
-					<Label htmlFor="entry-to" className="text-xs text-muted-foreground">
-						{t.to}
-					</Label>
-					<Input
-						id="entry-to"
-						type="time"
-						value={to}
-						onChange={(e) => {
-							setTo(e.target.value)
-							setError(false)
-						}}
-					/>
-				</div>
-				<div className="col-span-2 grid gap-1 sm:col-span-1">
-					<Label htmlFor="entry-until" className="text-xs text-muted-foreground">
-						{t.untilDate}
-					</Label>
-					<Input
-						id="entry-until"
-						type="date"
-						min={iso}
-						value={until}
-						onChange={(e) => {
-							setUntil(e.target.value)
-							setError(false)
-						}}
-					/>
-				</div>
+			)}
+			<div className="grid min-w-0 gap-1">
+				<Label htmlFor="entry-until" className="text-xs text-muted-foreground">
+					{t.untilDate}
+				</Label>
+				<Input
+					id="entry-until"
+					type="date"
+					min={iso}
+					value={until}
+					onChange={(e) => {
+						setUntil(e.target.value)
+						setError(false)
+					}}
+				/>
 			</div>
 			{error && <p className="text-sm text-destructive">{t.timeInvalid}</p>}
 			<Button type="submit" disabled={busy} className="tnum">

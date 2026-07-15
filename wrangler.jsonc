@@ -4,6 +4,9 @@
 	"compatibility_date": "2025-09-02",
 	"compatibility_flags": ["nodejs_compat"],
 	"main": "src/server.ts",
+	"placement": {
+		"mode": "smart"
+	},
 	"routes": [
 		{
 			"pattern": "appointment.newspicel.dev",
